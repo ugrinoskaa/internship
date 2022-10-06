@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,44 +13,29 @@ using RouteAttribute = System.Web.Http.RouteAttribute;
 
 namespace UserRoles.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UsersController : ApiController
     {
-        public static readonly List<User> users = new List<User>()
-        {
-            new User(){Id=1, FirstName="Joe", LastName="Doe"},
-            new User(){Id=2, FirstName="John", LastName="Doe"}
-        };
-
-        public static readonly Dictionary<int, HashSet<int>> userroles = new Dictionary<int, HashSet<int>>(){};
-
         // GET api/users
         public IList<User> GetUsers()
         {
-            return users;
-        }
-
-        // GET api/users/roles
-        [Route("api/users/roles")]
-        public IList<User> GetUserRoles()
-        {
-            foreach (var user in users)
+            using (ISession session = NHibertnateSession.OpenSession())
             {
-                if (userroles.ContainsKey(user.Id))
-                {
-                    HashSet<int> rolesIds = userroles[user.Id];
-                    user.Roles = RolesController.roles.FindAll(r => rolesIds.Contains(r.Id));
-                    
-                }
+                var users = session.Query<User>().ToList();
+                return users;
             }
-            return users;
         }
 
         // POST api/users
         public IHttpActionResult PostUser([FromBody] User user)
         {
-            user.Id = users.Count + 1;
-            users.Add(user);
+            using (ISession session = NHibertnateSession.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    session.Save(user);
+                    transaction.Commit();
+                }
+            }
 
             return StatusCode(HttpStatusCode.Created);
         }
@@ -57,14 +44,19 @@ namespace UserRoles.Controllers
         [Route("api/users/{user_id}/roles/{role_id}")]
         public IHttpActionResult PutUserRoles(int user_id, int role_id)
         {
-            if (userroles.ContainsKey(user_id))
+            using (ISession session = NHibertnateSession.OpenSession())
             {
-                userroles[user_id].Add(role_id);
-            }
-            else
-            {
-                userroles[user_id] = new HashSet<int>();
-                userroles[user_id].Add(role_id);
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    var user = session.Get<User>(user_id);
+                    var role = session.Get<Role>(role_id);
+
+                    user.Roles.Add(role);
+                    user.Roles = user.Roles.DistinctBy(u => u.Id).ToList();
+                    
+                    session.Save(user);
+                    transaction.Commit();
+                }
             }
 
             return StatusCode(HttpStatusCode.OK);

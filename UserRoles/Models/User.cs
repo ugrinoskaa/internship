@@ -18,6 +18,6 @@ namespace UserRoles.Models
         public virtual string LastName { get; set; }
 
         [JsonProperty(PropertyName = "roles")]
-        public virtual List<Role> Roles { get; set; } = new List<Role>();
+        public virtual IList<Role> Roles { get; set; }
     }
 }

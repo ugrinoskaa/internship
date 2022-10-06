@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,26 +10,29 @@ using UserRoles.Models;
 
 namespace UserRoles.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class RolesController : ApiController
     {
-        public static readonly List<Role> roles = new List<Role>()
-        {
-            new Role(){Id=1, Name="HR"},
-            new Role(){Id=2, Name="Manager"}
-        };
-
         // GET api/roles
         public IList<Role> GetRoles()
         {
-            return roles;
+            using (ISession session = NHibertnateSession.OpenSession())
+            {
+                var roles = session.Query<Role>().ToList();
+                return roles;
+            }
         }
 
         // POST api/roles
         public IHttpActionResult PostRole([FromBody] Role role)
         {
-            role.Id = roles.Count + 1;
-            roles.Add(role);
+            using (ISession session = NHibertnateSession.OpenSession())
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    session.Save(role);
+                    transaction.Commit();
+                }
+            }
 
             return StatusCode(HttpStatusCode.Created);
         }

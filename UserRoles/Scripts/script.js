@@ -45,7 +45,7 @@ function loadRoles() {
 
 function loadUserRoles() {
     $.ajax({
-        url: BASE_URL + "/users/roles",
+        url: BASE_URL + "/users",
         type: "get",
         success: function (userroles) {
             $("#userRolesList").empty();
