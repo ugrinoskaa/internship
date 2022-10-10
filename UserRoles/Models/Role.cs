@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using FluentNHibernate.Mapping;
 
 namespace UserRoles.Models
 {
@@ -13,5 +10,15 @@ namespace UserRoles.Models
 
         [JsonProperty(PropertyName = "name")]
         public virtual string Name { get; set; }
+    }
+
+    class RoleMap: ClassMap<Role>
+    {
+        public RoleMap()
+        {
+            Id(role => role.Id).Column("id").GeneratedBy.Native();
+            Map(role => role.Name).Column("name");
+            Table("roles");
+        }
     }
 }

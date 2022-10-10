@@ -158,6 +158,7 @@ C:\Users\aneta\Desktop\Internship\UserRoles\bin\roslyn\VBCSCompiler.exe
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\Antlr3.Runtime.dll
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\BouncyCastle.Crypto.dll
+C:\Users\aneta\Desktop\Internship\UserRoles\bin\FluentNHibernate.dll
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\Google.Protobuf.dll
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\Iesi.Collections.dll
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\K4os.Compression.LZ4.dll
@@ -196,6 +197,8 @@ C:\Users\aneta\Desktop\Internship\UserRoles\bin\WebGrease.dll
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\ZstdNet.dll
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\Antlr3.Runtime.xml
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\BouncyCastle.Crypto.xml
+C:\Users\aneta\Desktop\Internship\UserRoles\bin\FluentNHibernate.pdb
+C:\Users\aneta\Desktop\Internship\UserRoles\bin\FluentNHibernate.xml
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\Google.Protobuf.pdb
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\Google.Protobuf.xml
 C:\Users\aneta\Desktop\Internship\UserRoles\bin\Iesi.Collections.xml

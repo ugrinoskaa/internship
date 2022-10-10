@@ -12,5 +12,10 @@ namespace UserRoles.Controllers
         {
             return View();
         }
+
+        public ActionResult Tasks()
+        {
+            return View();
+        }
     }
 }
